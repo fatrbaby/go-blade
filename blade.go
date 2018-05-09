@@ -2,52 +2,35 @@ package blade
 
 import (
 	"path"
-	"errors"
 	"os"
-	"io/ioutil"
 )
 
+const ViewExt = ".blade.html"
+
 type Blade struct {
-	Compiler  *Compiler
-	viewPath  string
-	cachePath string
-	compiledFilePath string
+	Compiler     *Compiler
+	loadViewPath string
+	cachePath    string
 }
 
-func (blade *Blade) View(view string, data interface{}) (string, error) {
-	return blade.Compiler.Compile()
+func (blade *Blade) View(view string, data interface{}) ([]byte, error) {
+	filename := path.Join(blade.loadViewPath, view) + ViewExt
+
+	return blade.Compiler.Compile(filename)
 }
 
 func (blade *Blade) bootstrap() {
-	blade.compiledFilePath = path.Join(blade.cachePath, "views")
 	blade.Compiler = new(Compiler)
-}
 
-func (blade *Blade)load(view string) ([]byte, error) {
-	filename := path.Join(blade.viewPath, view)
-
-	has, err := exists(filename)
-
-	if err != nil {
-		return []byte(""), err
+	if has, _ := exists(blade.cachePath); has == false {
+		os.MkdirAll(blade.cachePath, 0777)
 	}
 
-	if !has {
-		return []byte(""), errors.New("file does not exists")
+	compiledPath := path.Join(blade.cachePath, "views")
+
+	if has, _ := exists(compiledPath); has == false {
+		os.MkdirAll(compiledPath, 0777)
 	}
 
-	file, err := os.Open(filename)
-	defer file.Close()
-
-	if err != nil {
-		return []byte(""), err
-	}
-
-	bytes, err := ioutil.ReadAll(file)
-
-	if err != nil {
-		return []byte(""), err
-	}
-
-	return bytes, nil
+	blade.Compiler.compiledFilePath = compiledPath
 }

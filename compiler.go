@@ -13,11 +13,17 @@ var (
 
 type Compiler struct {
 	compiledFilePath string
+	lexers []Lexer
 }
 
 func (compiler *Compiler) Compile(file string) ([]byte, error) {
 	if compiler.IsExpired(file) {
 		bytes, _ := load(file)
+
+		for _, lexer := range compiler.lexers {
+			bytes = lexer.Parse(bytes)
+		}
+
 		// doing compile
 		return bytes, compiler.WriteCompiled(compiler.CompiledPath(file), bytes)
 	}
@@ -50,6 +56,6 @@ func (compiler *Compiler) IsExpired(file string) bool {
 	return fileLastModified.After(compiledLastModified) || fileLastModified.Equal(compiledLastModified)
 }
 
-func (compiler *Compiler)WriteCompiled(filename string, contents []byte) error {
+func (compiler *Compiler) WriteCompiled(filename string, contents []byte) error {
 	return ioutil.WriteFile(filename, contents, 0644)
 }

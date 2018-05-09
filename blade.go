@@ -1,8 +1,8 @@
 package blade
 
 import (
-	"path"
 	"os"
+	"path"
 )
 
 const ViewExt = ".blade.html"

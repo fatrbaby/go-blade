@@ -13,10 +13,16 @@ type Blade struct {
 	cachePath    string
 }
 
-func (blade *Blade) View(view string, data interface{}) ([]byte, error) {
+func (blade *Blade) View(view string, data interface{}) View {
 	filename := path.Join(blade.loadViewPath, view) + ViewExt
 
-	return blade.Compiler.Compile(filename)
+	bytes, err := blade.Compiler.Compile(filename)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return View{source: bytes}
 }
 
 func (blade *Blade) bootstrap() {

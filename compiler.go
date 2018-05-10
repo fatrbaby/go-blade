@@ -61,11 +61,17 @@ func (compiler *Compiler) WriteCompiled(filename string, contents []byte) error 
 	return ioutil.WriteFile(filename, contents, 0644)
 }
 
-func NewCompiler() *Compiler {
-	compiler := new(Compiler)
+func (compiler *Compiler)applyLexers()  {
 	compiler.lexers = []Lexer{
 		new(lexers.Echo),
+		new(lexers.If),
+		new(lexers.EndIf),
 	}
+}
+
+func NewCompiler() *Compiler {
+	compiler := new(Compiler)
+	compiler.applyLexers()
 
 	return compiler
 }

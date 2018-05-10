@@ -65,6 +65,7 @@ func (compiler *Compiler) applyLexers() {
 	compiler.lexers = []Lexer{
 		new(lexers.Echo),
 		new(lexers.If),
+		new(lexers.Else),
 		new(lexers.EndIf),
 	}
 }

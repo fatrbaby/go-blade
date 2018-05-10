@@ -1,19 +1,18 @@
 package blade
 
 import (
-	"io"
 	"fmt"
+	"io"
 )
 
 type View struct {
 	source []byte
 }
 
-func (view View)Render(writer io.Writer) {
-	
+func (view View) Render(writer io.Writer) {
+
 }
 
-func (view View)Strings() string {
+func (view View) Strings() string {
 	return fmt.Sprintf("%s", view.source)
 }
-

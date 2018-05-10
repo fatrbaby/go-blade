@@ -5,7 +5,7 @@ import "regexp"
 const EchoPattern = `{{(.*)}}`
 
 var (
-	echoMatcher = regexp.MustCompile(EchoPattern)
+	echoMatcher  = regexp.MustCompile(EchoPattern)
 	echoReplacer = []byte(`{{${1}}}`)
 )
 

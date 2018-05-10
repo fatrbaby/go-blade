@@ -3,9 +3,9 @@ package blade
 import (
 	"crypto/sha1"
 	"fmt"
+	"github.com/fatrbaby/go-blade/lexers"
 	"io/ioutil"
 	"os"
-	"github.com/fatrbaby/go-blade/lexers"
 )
 
 var (
@@ -14,7 +14,7 @@ var (
 
 type Compiler struct {
 	compiledFilePath string
-	lexers []Lexer
+	lexers           []Lexer
 }
 
 func (compiler *Compiler) Compile(file string) ([]byte, error) {
@@ -61,7 +61,7 @@ func (compiler *Compiler) WriteCompiled(filename string, contents []byte) error 
 	return ioutil.WriteFile(filename, contents, 0644)
 }
 
-func (compiler *Compiler)applyLexers()  {
+func (compiler *Compiler) applyLexers() {
 	compiler.lexers = []Lexer{
 		new(lexers.Echo),
 		new(lexers.If),

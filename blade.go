@@ -20,7 +20,7 @@ func (blade *Blade) View(view string, data interface{}) ([]byte, error) {
 }
 
 func (blade *Blade) bootstrap() {
-	blade.Compiler = new(Compiler)
+	blade.Compiler = NewCompiler()
 
 	if has, _ := exists(blade.cachePath); has == false {
 		os.MkdirAll(blade.cachePath, 0777)

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"github.com/fatrbaby/go-blade/lexers"
 )
 
 var (
@@ -58,4 +59,13 @@ func (compiler *Compiler) IsExpired(file string) bool {
 
 func (compiler *Compiler) WriteCompiled(filename string, contents []byte) error {
 	return ioutil.WriteFile(filename, contents, 0644)
+}
+
+func NewCompiler() *Compiler {
+	compiler := new(Compiler)
+	compiler.lexers = []Lexer{
+		new(lexers.Echo),
+	}
+
+	return compiler
 }

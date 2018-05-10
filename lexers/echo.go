@@ -2,11 +2,11 @@ package lexers
 
 import "regexp"
 
-const EchoPattern = `{(./*)}`
+const EchoPattern = `{{(.*)}}`
 
 var (
 	echoMatcher = regexp.MustCompile(EchoPattern)
-	echoReplacer = []byte("{.$1}")
+	echoReplacer = []byte(`{{.${1}}}`)
 )
 
 type Echo struct{}

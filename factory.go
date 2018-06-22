@@ -1,6 +1,6 @@
 package blade
 
-func NewBlade(viewPath, cachePath string) *Blade {
+func New(viewPath, cachePath string) *Blade {
 	blade := new(Blade)
 	blade.loadViewPath = viewPath
 	blade.cachePath = cachePath

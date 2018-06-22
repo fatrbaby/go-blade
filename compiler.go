@@ -6,6 +6,7 @@ import (
 	"github.com/fatrbaby/go-blade/lexers"
 	"io/ioutil"
 	"os"
+	"github.com/fatrbaby/go-blade/fs"
 )
 
 var (
@@ -19,7 +20,7 @@ type Compiler struct {
 
 func (compiler *Compiler) Compile(file string) ([]byte, error) {
 	if compiler.IsExpired(file) {
-		bytes, _ := load(file)
+		bytes, _ := fs.Load(file)
 
 		for _, lexer := range compiler.lexers {
 			bytes = lexer.Parse(bytes)
@@ -31,7 +32,7 @@ func (compiler *Compiler) Compile(file string) ([]byte, error) {
 
 	compiled := compiler.CompiledPath(file)
 
-	return load(compiled)
+	return fs.Load(compiled)
 }
 
 func (compiler *Compiler) CompiledPath(file string) string {
@@ -45,14 +46,14 @@ func (compiler *Compiler) CompiledPath(file string) string {
 func (compiler *Compiler) IsExpired(file string) bool {
 	compiled := compiler.CompiledPath(file)
 
-	has, _ := exists(compiled)
+	has, _ := fs.Exists(compiled)
 
 	if !has {
 		return true
 	}
 
-	fileLastModified := lastModified(file)
-	compiledLastModified := lastModified(compiled)
+	fileLastModified := fs.LastModified(file)
+	compiledLastModified := fs.LastModified(compiled)
 
 	return fileLastModified.After(compiledLastModified) || fileLastModified.Equal(compiledLastModified)
 }

@@ -14,5 +14,5 @@ type Extends struct {
 }
 
 func (ex *Extends) Parse(context []byte) []byte {
-	
+	return context
 }

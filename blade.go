@@ -5,6 +5,7 @@ package blade
 import (
 	"os"
 	"path"
+	"github.com/fatrbaby/go-blade/fs"
 )
 
 const ViewExt = ".blade.html"
@@ -24,19 +25,19 @@ func (blade *Blade) View(view string, data interface{}) View {
 		panic(err)
 	}
 
-	return View{source: bytes}
+	return View{Source: bytes, Data: data}
 }
 
 func (blade *Blade) bootstrap() {
 	blade.Compiler = NewCompiler()
 
-	if has, _ := exists(blade.cachePath); has == false {
+	if has, _ := fs.Exists(blade.cachePath); has == false {
 		os.MkdirAll(blade.cachePath, 0777)
 	}
 
 	compiledPath := path.Join(blade.cachePath, "views")
 
-	if has, _ := exists(compiledPath); has == false {
+	if has, _ := fs.Exists(compiledPath); has == false {
 		os.MkdirAll(compiledPath, 0777)
 	}
 

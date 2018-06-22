@@ -13,7 +13,7 @@ type View struct {
 	Data     interface{}
 }
 
-func (view *View)Prepare() error  {
+func (view *View) Prepare() error {
 	var err error
 	view.Template, err = template.New("").Parse(view.HTML)
 

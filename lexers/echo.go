@@ -1,3 +1,6 @@
+// echo lexer
+// to print in template
+
 package lexers
 
 import "regexp"

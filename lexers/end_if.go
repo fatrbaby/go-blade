@@ -1,3 +1,6 @@
+// endif lexer
+// close the if block
+
 package lexers
 
 import "regexp"

@@ -1,3 +1,5 @@
+// lexer interface
+
 package blade
 
 type Lexer interface {

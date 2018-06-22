@@ -1,3 +1,5 @@
+// else lexer
+// use as if else
 package lexers
 
 import "regexp"

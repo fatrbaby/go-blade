@@ -3,10 +3,10 @@ package blade
 import (
 	"crypto/sha1"
 	"fmt"
+	"github.com/fatrbaby/go-blade/fs"
 	"github.com/fatrbaby/go-blade/lexers"
 	"io/ioutil"
 	"os"
-	"github.com/fatrbaby/go-blade/fs"
 )
 
 var (

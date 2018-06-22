@@ -1,7 +1,4 @@
 package blade
 
-type H map[string]string
-
-func (h H)Format() {
-
-}
+// H is a shortcut for map[string]interface{}
+type H map[string]interface{}

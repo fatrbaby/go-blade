@@ -7,13 +7,12 @@ import "regexp"
 const ElsePattern = `@else`
 
 var (
-	elseMatcher = regexp.MustCompile(ElsePattern)
+	elseMatcher  = regexp.MustCompile(ElsePattern)
 	elseReplacer = []byte("{{else}}")
 )
 
-type Else struct {}
+type Else struct{}
 
 func (es *Else) Parse(context []byte) []byte {
 	return elseMatcher.ReplaceAll(context, elseReplacer)
 }
-

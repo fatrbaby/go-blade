@@ -3,9 +3,9 @@
 package blade
 
 import (
+	"github.com/fatrbaby/go-blade/fs"
 	"os"
 	"path"
-	"github.com/fatrbaby/go-blade/fs"
 )
 
 const ViewExt = ".blade.html"
@@ -16,7 +16,7 @@ type Blade struct {
 	cachePath    string
 }
 
-func (blade *Blade) View(view string, data interface{}) View {
+func (blade *Blade) View(view string, data interface{}) *View {
 	filename := path.Join(blade.loadViewPath, view) + ViewExt
 
 	bytes, err := blade.Compiler.Compile(filename)
@@ -25,7 +25,18 @@ func (blade *Blade) View(view string, data interface{}) View {
 		panic(err)
 	}
 
-	return View{Source: bytes, Data: data}
+	engine := &View{
+		HTML: string(bytes),
+		Data: data,
+	}
+
+	err = engine.Prepare()
+
+	if err != nil {
+		panic(err)
+	}
+
+	return engine
 }
 
 func (blade *Blade) bootstrap() {

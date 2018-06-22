@@ -1,18 +1,16 @@
 package cache
 
-import "time"
+import (
+	"time"
+)
 
-type File struct {
-
+type fileDriver struct {
 }
 
-func (File) Set(key, value string, duration time.Duration) bool {
+func (fd *fileDriver) Set(key, value string, duration time.Duration) bool {
 	panic("implement me")
 }
 
-func (File) Get(key string) string {
+func (fd *fileDriver) Get(key string) string {
 	panic("implement me")
 }
-
-
-

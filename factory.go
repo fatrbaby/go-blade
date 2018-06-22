@@ -1,9 +1,11 @@
 package blade
 
-func New(viewPath, cachePath string) *Blade {
+import "github.com/fatrbaby/go-blade/cache"
+
+func New(viewPath string, cache cache.Driver) *Blade {
 	blade := new(Blade)
-	blade.loadViewPath = viewPath
-	blade.cachePath = cachePath
+	blade.ViewPath = viewPath
+	blade.cache = cache
 	blade.bootstrap()
 
 	return blade

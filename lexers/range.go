@@ -9,7 +9,7 @@ var (
 	rangeReplacer = []byte(`{{range ${1}}}`)
 )
 
-type Range struct {}
+type Range struct{}
 
 func (r Range) Parse(context []byte) []byte {
 	return rangeMatcher.ReplaceAll(context, rangeReplacer)

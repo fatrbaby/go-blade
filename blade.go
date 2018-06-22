@@ -3,54 +3,57 @@
 package blade
 
 import (
-	"github.com/fatrbaby/go-blade/fs"
-	"os"
+	"github.com/fatrbaby/go-blade/cache"
 	"path"
 )
 
 const ViewExt = ".blade.html"
 
 type Blade struct {
-	Compiler     *Compiler
-	loadViewPath string
-	cachePath    string
+	Debug    bool
+	Compiler *Compiler
+	ViewPath string
+	cache    cache.Driver
 }
 
 func (blade *Blade) View(view string, data interface{}) *View {
-	filename := path.Join(blade.loadViewPath, view) + ViewExt
+	filename := path.Join(blade.ViewPath, view) + ViewExt
+	hashedKey := HashKey(filename)
+	var err error
 
-	bytes, err := blade.Compiler.Compile(filename)
+	compiled := blade.cache.Get(hashedKey)
+
+	if compiled != "" {
+		return build(compiled, data)
+	}
+
+	var bytes []byte
+	bytes, err = blade.Compiler.Compile(filename)
+	compiled = string(bytes)
+	blade.cache.Set(hashedKey, compiled, 1000)
 
 	if err != nil {
 		panic(err)
 	}
 
+	return build(compiled, data)
+}
+
+func (blade *Blade) bootstrap() {
+	blade.Compiler = NewCompiler()
+}
+
+func build(compiled string, data interface{}) *View {
 	engine := &View{
-		HTML: string(bytes),
+		HTML: compiled,
 		Data: data,
 	}
 
-	err = engine.Prepare()
+	err := engine.Prepare()
 
 	if err != nil {
 		panic(err)
 	}
 
 	return engine
-}
-
-func (blade *Blade) bootstrap() {
-	blade.Compiler = NewCompiler()
-
-	if has, _ := fs.Exists(blade.cachePath); has == false {
-		os.MkdirAll(blade.cachePath, 0777)
-	}
-
-	compiledPath := path.Join(blade.cachePath, "views")
-
-	if has, _ := fs.Exists(compiledPath); has == false {
-		os.MkdirAll(compiledPath, 0777)
-	}
-
-	blade.Compiler.compiledFilePath = compiledPath
 }

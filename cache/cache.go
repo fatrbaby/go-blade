@@ -3,8 +3,8 @@ package cache
 import "time"
 
 type Cache struct {
-	Value string
-	Expired time.Duration
+	Value   string
+	Expired time.Time
 }
 
 type Driver interface {

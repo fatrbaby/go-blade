@@ -14,4 +14,3 @@ type EndRange struct{}
 func (ei *EndRange) Parse(context []byte) []byte {
 	return endRangeMatcher.ReplaceAll(context, endRangeReplacer)
 }
-

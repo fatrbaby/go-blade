@@ -7,23 +7,25 @@ import (
 )
 
 type View struct {
+	Template *template.Template
 	Name string
 	Source []byte
 	Data interface{}
 }
 
+func (view View)Parse() error {
+	var err error
+	view.Template, err = template.New(view.Name).Parse(string(view.Source))
+
+	return err
+}
+
 func (view View) Render(writer io.Writer) error {
-	engine, err := template.New("view").Parse(string(view.Source))
-
-	if err != nil {
-		return err
-	}
-
 	if view.Name == "" {
-		return engine.Execute(writer, view.Data)
+		return view.Template.Execute(writer, view.Data)
 	}
 
-	return engine.ExecuteTemplate(writer, view.Name, view.Data)
+	return view.Template.ExecuteTemplate(writer, view.Name, view.Data)
 }
 
 func (view View) Strings() string {

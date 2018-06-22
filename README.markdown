@@ -39,6 +39,8 @@ touch template file views/hello.blade.html
 
 touch main.go
 ```go
+package main
+
 import (
 	"github.com/fatrbaby/go-blade"
 	"net/http"
@@ -53,10 +55,10 @@ func main() {
 func Demo(w http.ResponseWriter, _ *http.Request) {
 	view := blade.New("views", "caches")
 	
-	data := map[string]interface{}{
+	data := blade.H{
 		"Name": "fatrbaby",
 		"Age": 1,
-		"Hello": "good",
+		"Hello": "what's up my bro",
 		"Title": "nobody can fuck with me",
 	}
 	

@@ -68,6 +68,8 @@ func (compiler *Compiler) applyLexers() {
 		new(lexers.If),
 		new(lexers.Else),
 		new(lexers.EndIf),
+		new(lexers.Range),
+		new(lexers.EndRange),
 	}
 }
 

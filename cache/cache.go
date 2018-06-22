@@ -1,6 +1,13 @@
 package cache
 
-type Cache interface {
-	Get(key string) []byte
-	Set(key string, value []byte) bool
+import "time"
+
+type Cache struct {
+	Value string
+	Expired time.Duration
+}
+
+type Driver interface {
+	Set(key, value string, duration time.Duration) bool
+	Get(key string) string
 }
